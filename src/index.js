@@ -1,8 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import * as Sentry from "@sentry/react";
+import { Integrations } from "@sentry/tracing";
+
+import history from "./history";
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+Sentry.init({
+    dsn: "https://f4570097ff5642c5a739b8be26893daa@o1085532.ingest.sentry.io/6096394",
+    integrations: [new Integrations.BrowserTracing({
+        routingInstrumentation: Sentry.reactRouterV5Instrumentation(history),
+    })],
+
+    // We recommend adjusting this value in production, or using tracesSampler
+    // for finer control
+    tracesSampleRate: 1.0,
+});
 
 ReactDOM.render(
   <React.StrictMode>
